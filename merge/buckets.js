@@ -78,3 +78,7 @@ download()
   .then(() => console.log('Uploading merged buckets...'))
   .then(upload)
   .then(() => console.log('All done!'))
+  .catch((err) => {
+    console.error(err)
+    process.exit(1)
+  })

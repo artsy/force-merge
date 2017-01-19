@@ -78,6 +78,7 @@ node_modules/.bin/bucket-assets
 heroku config:set ASSET_MANIFEST=$(cat manifest.json) --app=force-merge
 rm -rf desktop/public/assets
 rm -rf mobile/public/assets
+rm -rf public
 git add .
 git add -f desktop
 git add -f mobile

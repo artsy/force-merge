@@ -5,4 +5,4 @@ deployment:
   staging:
     branch: master
     commands:
-      - ./merge/test.sh
+      - sh ./merge/test.sh

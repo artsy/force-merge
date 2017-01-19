@@ -9,12 +9,8 @@
   "scripts": {
     "mocha": "mocha -r should --compilers coffee:coffee-script/register,js:babel-core/register -t 30000",
     "test": "npm run mocha $(find desktop/test -name '*.coffee') && npm run mocha $(find desktop/components/*/test -name '*.coffee') && npm run mocha $(find desktop/components/**/*/test -name '*.coffee') && npm run mocha $(find desktop/apps/*/test -name '*.coffee') && npm run mocha $(find desktop/apps/*/**/*/test -name '*.coffee') && npm run mocha $(find mobile/test -name '*.coffee') && npm run mocha $(find mobile/components/*/test -name '*.coffee') && npm run mocha $(find mobile/components/**/*/test -name '*.coffee') && npm run mocha $(find mobile/apps/*/test -name '*.coffee') && npm run mocha $(find mobile/apps/*/**/*/test -name '*.coffee')",
-    "merge": "sh merge/main.sh",
     "start": "node -r dotenv/config .",
-    "assets": "ezel-assets mobile/assets/ & ezel-assets desktop/assets/",
-    "bucket": "bucket-assets && heroku config:set ASSET_MANIFEST=$(cat manifest.json)",
-    "gitpush": "git add . && git commit -a -m 'deploying' && git push --force heroku master",
-    "deploy": "npm run assets && npm run bucket && npm run gitpush"
+    "assets": "ezel-assets mobile/assets/ & ezel-assets desktop/assets/"
   },
   "dependencies": {
     "accounting": "^0.4.1",

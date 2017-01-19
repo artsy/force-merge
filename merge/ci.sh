@@ -7,14 +7,14 @@ rm -rf desktop/.git
 rm -rf mobile/.git
 
 echo "Merging package.json files and installing modules..."
+rm -rf node_modules
 npm i package-merge
 node ./merge/package.js
 npm i dotenv --save
 npm i rewire@2.2.0 --save-dev
-rm -rf node_modules
 npm i
 
-echo "Syncing S3 buckets..."
+echo "Syncing merged S3 buckets..."
 rm -rf tmp
 mkdir tmp
 npm i s3
@@ -66,3 +66,16 @@ echo "app.listen(process.env.PORT, -> process.send? 'listening') if module is re
 echo "Replacing the cache libs with the root cache lib..."
 echo "module.exports = require '../../lib/cache'" > ./desktop/lib/cache.coffee
 echo "module.exports = require '../../lib/cache'" > ./mobile/lib/cache.coffee
+
+echo "Running tests..."
+npm run test
+
+echo "Deploying..."
+npm run assets
+node_modules/.bin/bucket-assets
+heroku config:set ASSET_MANIFEST=$(cat manifest.json) --app=force-merge
+git add .
+git add -f desktop
+git add -f mobile
+git commit -a -m 'deploying'
+git push --force https://git.heroku.com/force-merge.git

@@ -71,6 +71,8 @@ echo "Running tests..."
 npm run test
 
 echo "Deploying..."
+mkdir public
+mkdir public/assets
 npm run assets
 node_modules/.bin/bucket-assets
 heroku config:set ASSET_MANIFEST=$(cat manifest.json) --app=force-merge

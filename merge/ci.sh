@@ -50,9 +50,9 @@ rm -rf ./mobile/.gitignore
 rm -rf ./mobile/test/mocha.opts
 
 echo "Rewriting relative requires into node modules a directory back..."
-find desktop mobile -type f -name '*.coffee' -exec sed -i '' s%../node_modules%../../node_modules% {} +
-find desktop mobile -type f -name '*.jade' -exec sed -i '' s%../node_modules%../../node_modules% {} +
-find desktop mobile -type f -name '*.styl' -exec sed -i '' s%../node_modules%../../node_modules% {} +
+find . -type f -name '*.coffee' -exec sed -i s%../node_modules%../../node_modules% {} +
+find . -type f -name '*.jade' -exec sed -i s%../node_modules%../../node_modules% {} +
+find . -type f -name '*.styl' -exec sed -i s%../node_modules%../../node_modules% {} +
 
 echo "Replacing the root servers with simple express apps..."
 echo "express = require('express')" > ./desktop/index.coffee

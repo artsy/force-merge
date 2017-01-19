@@ -1,8 +1,8 @@
 machine:
   node:
-    version: 6.0
+    version: 6
 deployment:
   staging:
     branch: master
     commands:
-      - sh ./merge/test.sh
+      - sh ./merge/ci.sh

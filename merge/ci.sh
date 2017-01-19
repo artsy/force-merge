@@ -62,6 +62,7 @@ echo "express = require('express')" > ./mobile/index.coffee
 echo "setup = require './lib/setup'" >> ./mobile/index.coffee
 echo "module.exports = app = setup express()" >> ./mobile/index.coffee
 echo "app.listen(process.env.PORT, -> process.send? 'listening') if module is require.main" >> ./mobile/index.coffee
+sed -i s%index.coffee%mobile/index.coffee% mobile/test/helpers/servers.coffee
 
 echo "Replacing the cache libs with the root cache lib..."
 echo "module.exports = require '../../lib/cache'" > ./desktop/lib/cache.coffee

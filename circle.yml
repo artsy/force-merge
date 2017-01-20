@@ -5,4 +5,4 @@ deployment:
   staging:
     branch: master
     commands:
-      - git push --force git@heroku.com:force-merge.git
+      - sh ./merge/ci.sh

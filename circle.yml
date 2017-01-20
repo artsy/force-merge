@@ -5,6 +5,4 @@ deployment:
   staging:
     branch: master
     commands:
-      - echo "deploy"
-    heroku:
-      appname: force-merge
+      - git push --force git@heroku.com:force-merge.git

@@ -85,4 +85,4 @@ git add -f desktop
 git add -f mobile
 git add -f package.json
 git commit -a -m 'deploying'
-git push --force https://git.heroku.com/force-merge.git
+git push --force git@heroku.com:force-merge.git

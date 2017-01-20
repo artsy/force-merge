@@ -5,4 +5,6 @@ deployment:
   staging:
     branch: master
     commands:
-      - sh ./merge/ci.sh
+      - echo "deploy"
+    heroku:
+      appname: force-merge

@@ -14,15 +14,6 @@ const basePackage = {
     "node": "6.x.x",
     "npm": "4.x.x"
   },
-  "babel": {
-    "presets": [
-      "es2015",
-      "stage-3"
-    ],
-    "plugins": [
-      "transform-runtime"
-    ]
-  },
   "scripts": {
     "mocha": "mocha -r should --compilers coffee:coffee-script/register,js:babel-core/register -t 30000",
     "test": "npm run mocha $(find desktop/test -name '*.coffee') && npm run mocha $(find desktop/components/*/test -name '*.coffee') && npm run mocha $(find desktop/components/**/*/test -name '*.coffee') && npm run mocha $(find desktop/apps/*/test -name '*.coffee') && npm run mocha $(find desktop/apps/*/**/*/test -name '*.coffee') && npm run mocha $(find mobile/test -name '*.coffee') && npm run mocha $(find mobile/components/*/test -name '*.coffee') && npm run mocha $(find mobile/components/**/*/test -name '*.coffee') && npm run mocha $(find mobile/apps/*/test -name '*.coffee') && npm run mocha $(find mobile/apps/*/**/*/test -name '*.coffee')",

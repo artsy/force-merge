@@ -34,7 +34,6 @@ const determineDevice = (req, res, next) => {
     (ua.match(/BlackBerry/i))
   )
   req.isMobile = isPhone && !isResponsive(req.url)
-  console.log('got req', req.url, req.isMobile)
   next()
 }
 

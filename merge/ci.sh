@@ -12,6 +12,7 @@ npm i package-merge
 node ./merge/package.js
 npm i dotenv --save
 npm i rewire@2.2.0 --save-dev
+npm i glob --save
 npm i
 
 echo "Syncing merged S3 buckets..."

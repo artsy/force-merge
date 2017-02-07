@@ -15,6 +15,9 @@ npm i rewire@2.2.0 --save-dev
 npm i glob --save
 npm i
 
+echo "Merging environment files & config..."
+node -r babel-core/register merge/config.js
+
 echo "Syncing merged S3 buckets..."
 rm -rf tmp
 mkdir tmp

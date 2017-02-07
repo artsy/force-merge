@@ -1,4 +1,16 @@
 require('coffee-script/register')
+
+// Merge sharify data
+const sharify = require('sharify')
+require('./mobile/lib/setup_sharify')
+const mobileSD = Object.assign({}, sharify.data)
+require('./desktop/lib/setup_sharify')
+const desktopSD = Object.assign({}, sharify.data)
+const sd = Object.assign({}, mobileSD, desktopSD)
+sharify.data = sd
+
+// Require dependencies
+const path = require('path')
 const express = require('express')
 const newrelic = require('artsy-newrelic')
 const artsyXapp = require('artsy-xapp')
@@ -12,7 +24,7 @@ const DesktopUser = require('./desktop/models/current_user.coffee')
 const MobileUser = require('./mobile/models/current_user.coffee')
 
 const app = express()
-const { API_URL, CLIENT_ID, CLIENT_SECRET, PORT } = process.env
+const { API_URL, CLIENT_ID, CLIENT_SECRET, PORT, NODE_ENV } = process.env
 
 // Combine user models from desktop and mobile
 const MergedUser = DesktopUser.extend(MobileUser)
@@ -46,6 +58,24 @@ const routeErr = (err, req, res, next) => {
 }
 
 // Mount static assets first so responsive pages don't get confused
+if (NODE_ENV === 'development') {
+  app.use(require('stylus').middleware({
+    src: path.resolve(__dirname, 'desktop'),
+    dest: path.resolve(__dirname, 'desktop/public')
+  }))
+  app.use(require('browserify-dev-middleware')({
+    src: path.resolve(__dirname, 'desktop'),
+    transforms: [require('jadeify'), require('caching-coffeeify')]
+  }))
+  app.use(require('stylus').middleware({
+    src: path.resolve(__dirname, 'mobile'),
+    dest: path.resolve(__dirname, 'mobile/public')
+  }))
+  app.use(require('browserify-dev-middleware')({
+    src: path.resolve(__dirname, 'mobile'),
+    transforms: [require('jadeify'), require('caching-coffeeify')]
+  }))
+}
 glob.sync('desktop/**/public/')
   .concat(glob.sync('mobile/**/public/'))
   .forEach((fld) => app.use(express.static(fld)))

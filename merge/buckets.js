@@ -2,7 +2,6 @@
 // Copies over files from the Force & Microgravity S3 buckets into a new bucket
 //
 const s3 = require('s3')
-const { flatten } = require('underscore')
 
 const {
   S3_KEY,
@@ -63,7 +62,7 @@ const download = () => {
 
 const upload = () => {
   return new Promise((resolve, reject) => {
-    const download = merged.uploadDir({
+    merged.uploadDir({
       localDir: 'tmp/bucket',
       s3Params: {
         Bucket: S3_BUCKET,

@@ -7,8 +7,9 @@ const newVars = {
   NODE_ENV: 'development',
   S3_BUCKET: 'force-merge',
   APPLICATION_NAME: 'force-merge',
-  PORT: '5000',
-  APP_URL: 'http://localhost:5000'
+  APP_URL: 'https://merged.artsy.net',
+  COOKIE_DOMAIN: 'merged.artsy.net',
+  SESSION_COOKIE_KEY: 'force-merge.session'
 }
 
 const blacklistedVars = [
@@ -19,11 +20,15 @@ const blacklistedVars = [
   'PATH',
   'OLD_S3_KEY',
   'OLD_S3_SECRET',
+  'S3_BUCKET',
+  'S3_KEY',
+  'S3_SECRET',
   'DEBUG',
   'NEW_RELIC_APP_NAME',
   'NEW_RELIC_BROWSER_MONITOR_ENABLE',
   'NEW_RELIC_LOG',
   'NEW_RELIC_LICENSE_KEY',
+  'NEW_RELIC_CAPTURE_PARAMS',
   'COMMIT_HASH',
   'OPENREDIS_URL',
   'MARKETING_SIGNUP_MODAL_COPY',
@@ -31,7 +36,12 @@ const blacklistedVars = [
   'MARKETING_SIGNUP_MODAL_IMG',
   'MARKETING_SIGNUP_MODAL_SLUG',
   'NPM_CONFIG_PRODUCTION',
-  'PORT'
+  'PORT',
+  'HEROKU_APP_ID',
+  'HEROKU_APP_NAME',
+  'HEROKU_RELEASE_VERSION',
+  'HEROKU_SLUG_COMMIT',
+  'HEROKU_SLUG_DESCRIPTION'
 ]
 
 const publicVars = [
@@ -47,7 +57,12 @@ const publicVars = [
   'MOBILE_URL',
   'SECURE_IMAGES_URL',
   'ARTSY_URL',
-  'FORCE_URL'
+  'FORCE_URL',
+  'CONSIGNMENTS_APP_URL',
+  'FUSION_URL',
+  'GEMINI_ACCOUNT_KEY',
+  'GENOME_URL',
+  'REFLECTION_URL'
 ]
 
 const dotEnvTemplate = `
@@ -95,20 +110,27 @@ const config = async (app) => {
 }
 
 const toEnv = (hash, shared = false) => {
-  const vars = extend(omit(hash, blacklistedVars), shared ? newVars : {})
+  const vars = extend(
+    omit(hash, blacklistedVars, newVars),
+    shared ? newVars : {}
+  )
   return map(vars, (v, k) => `${k}=${v}`).join('\n')
 }
 
 const toPublicEnv = (hash, shared = false) => {
-  const vars = extend(omit(hash, blacklistedVars), shared ? newVars : {})
+  const vars = extend(
+    omit(hash, blacklistedVars, newVars),
+    shared ? newVars : {}
+  )
   return map(vars, (v, k) =>
     `${k}=${contains(publicVars, k) ? v : ''}`
   ).join('\n')
 }
 
 const main = async () => {
-  const desktop = await config('force-staging')
-  const mobile = await config('microgravity-staging')
+  console.log('Downloading Force & MG config...')
+  const desktop = await config('force-production')
+  const mobile = await config('microgravity-production')
   const desktopOnly = omit(desktop, keys(mobile))
   const mobileOnly = omit(mobile, keys(desktop))
   const shared = pick(desktop, keys(mobile))
@@ -120,10 +142,12 @@ const main = async () => {
     .replace('__SHARED__', toPublicEnv(shared, true))
     .replace('__DESKTOP__', toPublicEnv(desktopOnly))
     .replace('__MOBILE__', toPublicEnv(mobileOnly))
+  console.log('Writing new env files...')
   await Promise.all([
     write('.env', dotEnv),
     write('.env.oss', dotEnvPublic)
   ])
+  console.log('Finished merging config')
 }
 
 main().catch(console.error.bind(console))

@@ -121,7 +121,7 @@ const config = async (app) => {
 
 const toEnv = (hash, shared = false) => {
   const vars = extend(
-    omit(hash, extend(blacklistedVars.concat(keys(newVars)))),
+    omit(hash, blacklistedVars.concat(keys(newVars))),
     shared ? newVars : {}
   )
   return map(vars, (v, k) => `${k}=${v}`).join('\n')

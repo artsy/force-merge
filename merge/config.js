@@ -9,7 +9,8 @@ const newVars = {
   APPLICATION_NAME: 'force-merge',
   APP_URL: 'https://merged.artsy.net',
   COOKIE_DOMAIN: 'merged.artsy.net',
-  SESSION_COOKIE_KEY: 'force-merge.session'
+  SESSION_COOKIE_KEY: 'force-merge.session',
+  FORCE_URL: 'https://merged.artsy.net'
 }
 
 const blacklistedVars = [
@@ -57,7 +58,6 @@ const publicVars = [
   'MOBILE_URL',
   'SECURE_IMAGES_URL',
   'ARTSY_URL',
-  'FORCE_URL',
   'CONSIGNMENTS_APP_URL',
   'FUSION_URL',
   'GEMINI_ACCOUNT_KEY',

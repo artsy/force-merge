@@ -10,7 +10,12 @@ const newVars = {
   APP_URL: 'https://merged.artsy.net',
   COOKIE_DOMAIN: 'merged.artsy.net',
   SESSION_COOKIE_KEY: 'force-merge.session',
-  FORCE_URL: 'https://merged.artsy.net'
+  FORCE_URL: 'https://merged.artsy.net',
+  // OSS Artsy ID & Secret
+  ARTSY_ID: 'e750db60ac506978fc70',
+  ARTSY_SECRET: '3a33d2085cbd1176153f99781bbce7c6',
+  CLIENT_ID: 'e750db60ac506978fc70',
+  CLIENT_SECRET: '3a33d2085cbd1176153f99781bbce7c6'
 }
 
 const blacklistedVars = [
@@ -62,7 +67,12 @@ const publicVars = [
   'FUSION_URL',
   'GEMINI_ACCOUNT_KEY',
   'GENOME_URL',
-  'REFLECTION_URL'
+  'REFLECTION_URL',
+  'FORCE_URL',
+  'ARTSY_ID',
+  'ARTSY_SECRET',
+  'CLIENT_ID',
+  'CLIENT_SECRET'
 ]
 
 const dotEnvTemplate = `
@@ -111,7 +121,7 @@ const config = async (app) => {
 
 const toEnv = (hash, shared = false) => {
   const vars = extend(
-    omit(hash, blacklistedVars, newVars),
+    omit(hash, blacklistedVars.concat(keys(newVars))),
     shared ? newVars : {}
   )
   return map(vars, (v, k) => `${k}=${v}`).join('\n')
@@ -119,7 +129,7 @@ const toEnv = (hash, shared = false) => {
 
 const toPublicEnv = (hash, shared = false) => {
   const vars = extend(
-    omit(hash, blacklistedVars, newVars),
+    omit(hash, blacklistedVars.concat(keys(newVars))),
     shared ? newVars : {}
   )
   return map(vars, (v, k) =>

@@ -34,8 +34,6 @@ const isResponsive = (url) => {
   return stack.filter((route) => route.regexp.test(url)).length > 0
 }
 
-console.log(mobile._router.stack, desktop._router.stack)
-
 const determineDevice = (req, res, next) => {
   const ua = req.get('user-agent')
   const isPhone = Boolean(

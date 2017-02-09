@@ -11,6 +11,8 @@ rm -rf node_modules
 npm i package-merge
 node ./merge/package.js
 npm i dotenv --save
+npm uninstall stylus --save-dev
+npm i stylus --save
 npm i rewire@2.2.0 --save-dev
 npm i glob --save
 npm i
@@ -54,9 +56,9 @@ rm -rf ./mobile/.gitignore
 rm -rf ./mobile/test/mocha.opts
 
 echo "Rewriting relative requires into node modules a directory back..."
-find . -type f -name '*.coffee' -exec sed -i s%../node_modules%../../node_modules% {} +
-find . -type f -name '*.jade' -exec sed -i s%../node_modules%../../node_modules% {} +
-find . -type f -name '*.styl' -exec sed -i s%../node_modules%../../node_modules% {} +
+find . -type f -name '*.coffee' -exec sed -i '' s%../node_modules%../../node_modules% {} +
+find . -type f -name '*.jade' -exec sed -i '' s%../node_modules%../../node_modules% {} +
+find . -type f -name '*.styl' -exec sed -i '' s%../node_modules%../../node_modules% {} +
 
 echo "Replacing the root servers with simple express apps..."
 echo "express = require('express')" > ./desktop/index.coffee
@@ -66,7 +68,7 @@ echo "express = require('express')" > ./mobile/index.coffee
 echo "setup = require './lib/setup'" >> ./mobile/index.coffee
 echo "module.exports = app = setup express()" >> ./mobile/index.coffee
 echo "app.listen(process.env.PORT, -> process.send? 'listening') if module is require.main" >> ./mobile/index.coffee
-sed -i s%index.coffee%mobile/index.coffee% mobile/test/helpers/servers.coffee
+sed -i '' s%index.coffee%mobile/index.coffee% mobile/test/helpers/servers.coffee
 
 echo "Replacing the cache libs with the root cache lib..."
 echo "module.exports = require '../../lib/cache'" > ./desktop/lib/cache.coffee

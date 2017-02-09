@@ -20,14 +20,12 @@ const desktop = require('./desktop')
 const mobile = require('./mobile')
 const mobileMiddleware = require('./desktop/lib/middleware/redirect_mobile.coffee')
 const cache = require('./lib/cache')
-const DesktopUser = require('./desktop/models/current_user.coffee')
-const MobileUser = require('./mobile/models/current_user.coffee')
+const MergedUser = require('./lib/merged_user')
 
 const app = express()
 const { API_URL, CLIENT_ID, CLIENT_SECRET, PORT, NODE_ENV } = process.env
 
 // Combine user models from desktop and mobile
-const MergedUser = DesktopUser.extend(MobileUser)
 artsyPassport.options.CurrentUser = MergedUser
 
 // Middleware to direct to mobile or desktop apps
@@ -86,12 +84,11 @@ app.use(determineDevice)
 app.use(routeApp)
 app.use(routeErr)
 
-// Attempt to connect to Redis. If it fails, no worries, the app will move on
-// without caching.
+// Connect to Redis
 cache.setup(() => {
   // Get an xapp token
   artsyXapp.init({ url: API_URL, id: CLIENT_ID, secret: CLIENT_SECRET }, () => {
-    // Start server
+    // Start the server
     app.listen(PORT, () => {
       console.log(`Force listening on port ${PORT}`)
     })

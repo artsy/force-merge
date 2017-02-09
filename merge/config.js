@@ -10,7 +10,10 @@ const newVars = {
   APP_URL: 'https://merged.artsy.net',
   COOKIE_DOMAIN: 'merged.artsy.net',
   SESSION_COOKIE_KEY: 'force-merge.session',
-  FORCE_URL: 'https://merged.artsy.net'
+  FORCE_URL: 'https://merged.artsy.net',
+  // OSS Artsy ID & Secret
+  ARTSY_ID: 'e750db60ac506978fc70',
+  ARTSY_SECRET: '3a33d2085cbd1176153f99781bbce7c6'
 }
 
 const blacklistedVars = [

@@ -12,7 +12,8 @@ npm i package-merge
 node ./merge/package.js
 npm i dotenv --save
 npm uninstall stylus --save-dev
-npm i stylus --save
+npm uninstall nib --save-dev
+npm i stylus nib --save
 npm i rewire@2.2.0 --save-dev
 npm i glob --save
 npm i

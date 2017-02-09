@@ -11,8 +11,7 @@ rm -rf node_modules
 npm i package-merge
 node ./merge/package.js
 npm i dotenv --save
-npm uninstall stylus --save-dev
-npm uninstall nib --save-dev
+npm uninstall stylus nib --save-dev
 npm i stylus nib --save
 npm i rewire@2.2.0 --save-dev
 npm i glob --save
